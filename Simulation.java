@@ -12,22 +12,27 @@ public class Simulation implements ITicker {
     ArrayList<People> population;
 
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) throws InterruptedException, IOException {
         simulation = new Simulation();
         simulation.simulate();
     }
 
-    public void simulate() throws InterruptedException {
+    public void simulate() throws InterruptedException, IOException {
         //fields
         field = new Field(Parameters.FIELD_WIDTH, Parameters.FIELD_HEIGHT);
         population = new ArrayList<>();
 
         initPopulation();
 
+        String classCsv = "num_of_people_in_class.csv";
+        String wealthCsv = "wealth_of_people.csv";
+        Analyst.initFileStream(classCsv, wealthCsv);
+
         for (int i = 0; i< Parameters.NUM_OF_TICKS; ++i) {
             Thread.sleep(Parameters.TICK_INTERVAL);
             tick();
         }
+        Analyst.clearFileStream();
     }
 
     public void initPopulation() {

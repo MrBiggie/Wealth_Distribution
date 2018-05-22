@@ -3,6 +3,38 @@ import java.util.ArrayList;
 
 public class Analyst {
 
+    static FileOutputStream fos_class;
+    static OutputStreamWriter osw_class;
+    static BufferedWriter bw_class;
+
+    static FileOutputStream fos_wealth;
+    static OutputStreamWriter osw_wealth;
+    static BufferedWriter bw_wealth;
+
+    public static void initFileStream(String classCsv, String wealthCsv) throws IOException {
+        File file_class = new File(classCsv);
+        fos_class = new FileOutputStream(file_class);
+        osw_class = new OutputStreamWriter(fos_class);
+        bw_class = new BufferedWriter(osw_class);
+
+        File file_wealth = new File(wealthCsv);
+        fos_wealth = new FileOutputStream(file_wealth);
+        osw_wealth = new OutputStreamWriter(fos_wealth);
+        bw_wealth = new BufferedWriter(osw_wealth);
+        //print index line for lorenz curve
+        printIndexRow(bw_wealth);
+    }
+
+    public static void clearFileStream() throws IOException {
+        bw_class.close();
+        osw_class.close();
+        fos_class.close();
+
+        bw_wealth.close();
+        osw_wealth.close();
+        bw_wealth.close();
+    }
+
     /**
      * analyse every person's wealth level, and generate statistics data.
      * Four indices will be generated over this process: * [1]Class Plot [2]Class
@@ -49,21 +81,21 @@ public class Analyst {
         population.sort(wc);
         //set maxWealth
         maxWealth = population.get(population.size() - 1).getGrain();
-        //
+        //calculate class population
         for (People people : population) {
             WealthLevel wealthLevel = assessWealth(people, maxWealth);
             switch (wealthLevel) {
                 case low:
                     ++lowCount;
-                    // people.setWealthLevel(WealthLevel.low);
+                    people.setWealthLevel(WealthLevel.low);
                     break;
                 case mid:
                     ++midCount;
-                    // people.setWealthLevel(WealthLevel.mid);
+                    people.setWealthLevel(WealthLevel.mid);
                     break;
                 case high:
                     ++highCount;
-                    // people.setWealthLevel(WealthLevel.high);
+                    people.setWealthLevel(WealthLevel.high);
                     break;
             }
         }
@@ -73,44 +105,26 @@ public class Analyst {
 
     private static void printClassData(int lowCount, int midCount, int highCount)
             throws IOException {
-        //open streams
-        File file_class = new File("num_of_people_in_class.csv");
-        try(FileOutputStream fos_class = new FileOutputStream(file_class)) {
-            try(OutputStreamWriter osw_class = new OutputStreamWriter(fos_class)) {
-                try(BufferedWriter bw_class = new BufferedWriter(osw_class)) {
-                    //analyze dynamic data
-                    bw_class.write(lowCount + "," + midCount + "," + highCount);
-                    bw_class.newLine();
-                }
-            }
-        }
+        //analyze dynamic data
+        bw_class.write(lowCount + "," + midCount + "," + highCount);
+        bw_class.newLine();
     }
 
     private static void printLorenzData(ArrayList<People> population)
             throws IOException {
-        //open streams
-        File file_wealth = new File("wealth_of_people.csv");
-        try(FileOutputStream fos_wealth = new FileOutputStream(file_wealth)) {
-            try(OutputStreamWriter osw_wealth = new OutputStreamWriter(fos_wealth)) {
-               try(BufferedWriter bw_wealth = new BufferedWriter(osw_wealth)) {
-                   //print index line for lorenz curve
-                   printIndexRow(bw_wealth);
-                   //get lorenz data
-                   double[] lorenz_data = Analyst.Lorenz(population);
-                   //print y-axis data for lorenz curve
-                   for (int k = 0; k < lorenz_data.length; k++) {
-                       if (k != (lorenz_data.length - 1)) {
-                           System.out.println(lorenz_data[k]);
-                           bw_wealth.write(lorenz_data[k] + ",");
-                       } else {
-                           System.out.println(lorenz_data[k]);
-                           bw_wealth.write(Double.toString(lorenz_data[k]));
-                       }
-                   }
-                   bw_wealth.newLine();
-               }
+        //get lorenz data
+        double[] lorenz_data = Analyst.Lorenz(population);
+        //print y-axis data for lorenz curve
+        for (int k = 0; k < lorenz_data.length; k++) {
+            if (k != (lorenz_data.length - 1)) {
+                System.out.println(lorenz_data[k]);
+                bw_wealth.write(lorenz_data[k] + ",");
+            } else {
+                System.out.println(lorenz_data[k]);
+                bw_wealth.write(Double.toString(lorenz_data[k]));
             }
         }
+        bw_wealth.newLine();
     }
 
     private static void printIndexRow(BufferedWriter bw_wealth) throws IOException {
