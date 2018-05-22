@@ -22,6 +22,7 @@ public class People implements ITicker {
         this.vision = vision;
         this.current_age = current_age;
         this.grain = grain;
+        this.wealthLevel = WealthLevel.none;
     }
 
     public int getGrain() {
@@ -88,17 +89,24 @@ public class People implements ITicker {
     // collect grain of certain patch
     public void harvest() {
         Patch patch = field.getPatch(location.getX(), location.getY());
-        // if (this.wealthLevel == wealthLevel.low) {
-        // System.out.println("low");
-        // grain += (int) (patch.harvest() * Parameters.TAX_RATE_POOR);
-        // } else if (this.wealthLevel == wealthLevel.mid) {
-        // System.out.println("mid");
-        // grain += (int) (patch.harvest() * Parameters.TAX_RATE_MIDDLE);
-        // } else {
-        // System.out.println("high");
-        // grain += (int) (patch.harvest() * Parameters.TAX_RATE_RICH);
-        // }
-        grain += patch.harvest();
+        if (Parameters.TAX) {
+            switch (this.wealthLevel) {
+                case low:
+                    grain += (int)(patch.harvest() * (1-Parameters.TAX_RATE_POOR));
+                    break;
+                case mid:
+                    grain += (int)(patch.harvest() * (1-Parameters.TAX_RATE_MIDDLE));
+                    break;
+                case high:
+                    grain += (int)(patch.harvest() * (1-Parameters.TAX_RATE_RICH));
+                    break;
+                default:
+                    grain += patch.harvest();
+                    break;
+            }
+        } else {
+            grain += patch.harvest();
+        }
         // System.out.println("harvested grains: " + grain);
     }
 
@@ -136,7 +144,7 @@ public class People implements ITicker {
         int grain;
         int vision = 1 + random.nextInt(Parameters.MAX_VISION);
         int age = 0;
-        if (Parameters.WEALTH_INHERITANCE == true) {
+        if (Parameters.WEALTH_INHERITANCE && this.grain > this.metabolism) {
             grain = (int) (this.grain * Parameters.WEALTH_INHERITANCE_PROPORTION);
         } else {
             grain = random.nextInt(Parameters.INITIAL_MAX_GRAIN_WEALTH_PER_PEOPLE);
