@@ -16,6 +16,9 @@ public class Parameters {
     public static final int NUM_GRAIN_GROWN = 5;
     public static final int MAX_WEALTH = 70;
 
+    public static final boolean PATCH_DECAY = true;
+    public static final int HARVEST_REMAIN = 6;
+    public static final double HARVEST_DECAY = 0.15;
 
     public static final boolean WEALTH_INHERITANCE = false;
     public static final double WEALTH_INHERITANCE_PROPORTION = 1;

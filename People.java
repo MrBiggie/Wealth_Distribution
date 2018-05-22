@@ -92,13 +92,13 @@ public class People implements ITicker {
         if (Parameters.TAX) {
             switch (this.wealthLevel) {
                 case low:
-                    grain += (int)(patch.harvest() * (1-Parameters.TAX_RATE_POOR));
+                    grain += (int) (patch.harvest() * (1 - Parameters.TAX_RATE_POOR));
                     break;
                 case mid:
-                    grain += (int)(patch.harvest() * (1-Parameters.TAX_RATE_MIDDLE));
+                    grain += (int) (patch.harvest() * (1 - Parameters.TAX_RATE_MIDDLE));
                     break;
                 case high:
-                    grain += (int)(patch.harvest() * (1-Parameters.TAX_RATE_RICH));
+                    grain += (int) (patch.harvest() * (1 - Parameters.TAX_RATE_RICH));
                     break;
                 default:
                     grain += patch.harvest();
@@ -106,6 +106,9 @@ public class People implements ITicker {
             }
         } else {
             grain += patch.harvest();
+            if (Parameters.PATCH_DECAY == true) {
+                patch.setHarvest_remain(patch.getHarvest_remain() - 1);
+            }
         }
         // System.out.println("harvested grains: " + grain);
     }
