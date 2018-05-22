@@ -1,3 +1,7 @@
+/**
+ * Haoyuan Tang 809040
+ * Shuyuan Dang 840992
+ */
 
 /**
  * Simulate the patch in Wealth Distribution model

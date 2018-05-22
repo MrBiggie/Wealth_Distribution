@@ -1,6 +1,17 @@
-public class Parameters {
-    public final static int TICK_INTERVAL = 0;
+/**
+ * Haoyuan Tang 809040
+ * Shuyuan Dang 840992
+ */
 
+/**
+ * This class is a set of static parameters used for simulation
+ */
+public class Parameters {
+    //interval for each tick in milliseconds
+    public final static int TICK_INTERVAL = 0;
+    public static final int NUM_OF_TICKS = 1000;
+
+    //basic parameters
     public final static int MAX_GRAIN_PATCH = 50;
     public static final int FIELD_HEIGHT = 50;
     public static final int FIELD_WIDTH = 50;
@@ -10,7 +21,6 @@ public class Parameters {
     public static final int LIFE_EXPECTANCY_MAX = 70;
     public static final int LIFE_EXPECTANCY_MIN = 1;
     public static final int METABOLISM_MAX = 15;
-    public static final int NUM_OF_TICKS = 1000;
     public static final int PERCENT_BEST_LAND = 20;
     public static final int GRAIN_GROWTH_INTERVAL = 2;
     public static final int NUM_GRAIN_GROWN = 5;

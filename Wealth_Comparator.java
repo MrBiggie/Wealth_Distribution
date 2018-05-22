@@ -1,3 +1,8 @@
+/**
+ * Haoyuan Tang 809040
+ * Shuyuan Dang 840992
+ */
+
 import java.util.Comparator;
 
 public class Wealth_Comparator implements Comparator {

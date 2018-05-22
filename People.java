@@ -1,3 +1,8 @@
+/**
+ * Haoyuan Tang 809040
+ * Shuyuan Dang 840992
+ */
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
@@ -29,6 +34,10 @@ public class People implements ITicker {
         return grain;
     }
 
+    /**
+     * value every patch in vision, and decide the next patch the people should move towards
+     * @return
+     */
     public Patch getNextPatch() {
 
         // get the location of current people
@@ -56,8 +65,9 @@ public class People implements ITicker {
         Patch_Comparator pc = new Patch_Comparator();
         Collections.sort(Patches, pc);
 
-        // Get best patch with the most grains inside
+        // get best patch with the most grains inside
         Patch Best_Patch = Patches.get(0);
+        // determine next move direction
         if (Best_Patch.getLocation().getX() == location.getX()) {
             if (Best_Patch.getLocation().getY() > location.getY()) {
                 return field.getPatch(location.getX(), location.getY() + 1);
@@ -86,9 +96,10 @@ public class People implements ITicker {
         this.location = location;
     }
 
-    // collect grain of certain patch
+    // harvest grains of the patch the people are currently on
     public void harvest() {
         Patch patch = field.getPatch(location.getX(), location.getY());
+        //pay tax
         if (Parameters.TAX) {
             switch (this.wealthLevel) {
                 case low:
@@ -139,6 +150,9 @@ public class People implements ITicker {
         grain = grain < 0 ? 0 : grain;
     }
 
+    /**
+     * a people will reincarnate when he/she reaches lifespan limit or runs out of grains.
+     */
     public void reincarnate() {
         Random random = new Random();
         int metabolism = 1 + random.nextInt(Parameters.METABOLISM_MAX);

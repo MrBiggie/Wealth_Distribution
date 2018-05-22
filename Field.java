@@ -1,4 +1,7 @@
-
+/**
+ * Haoyuan Tang 809040
+ * Shuyuan Dang 840992
+ */
 import java.util.Random;
 
 public class Field implements ITicker {
@@ -6,13 +9,11 @@ public class Field implements ITicker {
     private int width; //50
     private int height; //50
     private Patch[][] patches;
-    // private HashMap<People, Location> people_on_field;
 
     public Field(int width, int height) {
         this.width = width;
         this.height = height;
         Random random = new Random();
-//        people_on_field = new HashMap<>();
         patches = new Patch[width][height];
         double[][] patch_init_value = new double[width][height];
 

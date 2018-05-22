@@ -1,3 +1,7 @@
+/**
+ * Haoyuan Tang 809040
+ * Shuyuan Dang 840992
+ */
 public class Location {
     private int x;
     private int y;

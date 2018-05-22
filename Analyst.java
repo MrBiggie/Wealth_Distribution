@@ -1,6 +1,14 @@
+/**
+ * Haoyuan Tang 809040
+ * Shuyuan Dang 840992
+ */
+
 import java.io.*;
 import java.util.ArrayList;
 
+/**
+ * Handler all analysis-related tasks
+ */
 public class Analyst {
 
     static FileOutputStream fos_class;
@@ -50,6 +58,11 @@ public class Analyst {
         }
     }
 
+    /**
+     * Calculate Lorenz data
+     * @param ascendingPopulation the population list in low wealth to high wealth order
+     * @return
+     */
     public static double[] Lorenz(ArrayList<People> ascendingPopulation) {
         double total_wealth = 0;
         double[] lorenz_para = new double[101];
@@ -69,6 +82,11 @@ public class Analyst {
         return lorenz_para;
     }
 
+    /**
+     * Calculate Gini indices
+     * @param lorenz_data
+     * @return
+     */
     public static double gini(double[] lorenz_data) {
         double gini_number = 0;
         for (double i : lorenz_data) {
@@ -77,6 +95,11 @@ public class Analyst {
         return ((lorenz_data.length / 2) - gini_number) / (lorenz_data.length / 2);
     }
 
+    /**
+     * analyse the whole population, conduct a set of statistics
+     * @param population
+     * @throws IOException
+     */
     public static void analyse(ArrayList<People> population) throws IOException {
 
         int lowCount = 0;
@@ -112,6 +135,13 @@ public class Analyst {
         printGiniData(Lorenz(population));
     }
 
+    /**
+     * write wealth class data to file and print it onto the console
+     * @param lowCount
+     * @param midCount
+     * @param highCount
+     * @throws IOException
+     */
     private static void printClassData(int lowCount, int midCount, int highCount)
             throws IOException {
         //analyze dynamic data
@@ -136,12 +166,21 @@ public class Analyst {
         bw_wealth.newLine();
     }
 
+    /**
+     * write wealth gini indices to file and print it onto the console
+     * @param lorenz_data
+     * @throws IOException
+     */
     private static void printGiniData(double[] lorenz_data) throws IOException {
         bw_wealth.write(Double.toString(gini(lorenz_data)));
         bw_wealth.write(",");
     }
 
-
+    /**
+     * write the heading row to file
+     * @param bw_wealth
+     * @throws IOException
+     */
     private static void printIndexRow(BufferedWriter bw_wealth) throws IOException {
         for (int j = 0; j <= 100; j++) {
             if (j != 100) {

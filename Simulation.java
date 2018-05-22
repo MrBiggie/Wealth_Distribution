@@ -1,3 +1,8 @@
+/**
+ * Haoyuan Tang 809040
+ * Shuyuan Dang 840992
+ */
+
 import java.io.*;
 import java.nio.Buffer;
 import java.util.ArrayList;
@@ -17,6 +22,11 @@ public class Simulation implements ITicker {
         simulation.simulate();
     }
 
+    /**
+     * Simulate the model
+     * @throws InterruptedException
+     * @throws IOException
+     */
     public void simulate() throws InterruptedException, IOException {
         //fields
         field = new Field(Parameters.FIELD_WIDTH, Parameters.FIELD_HEIGHT);
@@ -35,6 +45,9 @@ public class Simulation implements ITicker {
         Analyst.clearFileStream();
     }
 
+    /**
+     * randomly distribute the init population
+     */
     public void initPopulation() {
         Random random = new Random();
         //initialize people on the field
