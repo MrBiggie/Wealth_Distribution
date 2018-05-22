@@ -69,6 +69,14 @@ public class Analyst {
         return lorenz_para;
     }
 
+    public static double gini(double[] lorenz_data) {
+        double gini_number = 0;
+        for (double i : lorenz_data) {
+            gini_number += i;
+        }
+        return ((lorenz_data.length / 2) - gini_number) / (lorenz_data.length / 2);
+    }
+
     public static void analyse(ArrayList<People> population) throws IOException {
 
         int lowCount = 0;
@@ -100,7 +108,8 @@ public class Analyst {
             }
         }
         printClassData(lowCount, midCount, highCount);
-        printLorenzData(population);
+        // printLorenzData(population);
+        printGiniData(Lorenz(population));
     }
 
     private static void printClassData(int lowCount, int midCount, int highCount)
@@ -126,6 +135,12 @@ public class Analyst {
         }
         bw_wealth.newLine();
     }
+
+    private static void printGiniData(double[] lorenz_data) throws IOException {
+        bw_wealth.write(Double.toString(gini(lorenz_data)));
+        bw_wealth.write(",");
+    }
+
 
     private static void printIndexRow(BufferedWriter bw_wealth) throws IOException {
         for (int j = 0; j <= 100; j++) {
