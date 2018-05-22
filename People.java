@@ -112,15 +112,20 @@ public class People implements ITicker {
         harvest();
 
         // eat metabolism
-        grain -= metabolism;
+        consume();
 
         // ages increases
         current_age += 1;
 
         // this people die if he is older than
-        if (current_age > life_expectancy || grain <= 0) {
+        if (current_age > life_expectancy || grain == 0) {
             reincarnate();
         }
+    }
+
+    private void consume() {
+        grain -= metabolism;
+        grain = grain < 0 ? 0 : grain;
     }
 
     public void reincarnate() {
